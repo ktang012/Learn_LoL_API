@@ -10,7 +10,7 @@ def InputRegion():
     region = input("""
         Enter region:
         BR, EUNE, EUW, KR, LAN, LAS, NA, OCE, RU, TR
-        \r""")
+        \r""").lower()
     return region
 
 def InputSummonerName():
@@ -19,9 +19,9 @@ def InputSummonerName():
         \r""")
     return summoner_name
 
-def GetData(region, summoner_name_html):
+def InitSummonerData(region, summoner_name_html):
     call = "https://" + region + ".api.pvp.net/api/lol/" + region + \
-           "/v1.4/summoner/by-name/" + summoner_name_html + my_key
+           "/v1.4/summoner/by-name/" + summoner_name_html + "?" + my_key
     try:
         my_request = requests.get(call)
 
@@ -64,7 +64,7 @@ def main():
     raw_summoner_name = InputSummonerName()
     summoner_name = raw_summoner_name.replace(" ", "")
     summoner_name_html = raw_summoner_name.replace(" ", "%20")
-    my_data = GetData(region, summoner_name_html)
+    my_data = InitSummonerData(region, summoner_name_html)
     PrintData(summoner_name, my_data)
 
 if __name__ == '__main__':
